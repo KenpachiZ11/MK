@@ -47,25 +47,25 @@ function createPlayer(pers) {
     return $player;
 }
 
-function random(min, max) {
-    min = Math.ceil(0);
-    max = Math.floor(20);
-    return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
-  }
-
 function changeHP(player) {
     const $playerLife = document.querySelector('.player' + player.player + ' ' +'.life');
-    player.hp -= random();
     $playerLife.style.width = player.hp + '%';
     
     console.log(player.hp)
 
-    if(player.hp <= 0) {
-        (player1.hp > 0 && player1.hp > player2.hp) ? $arenas.appendChild(playerStatus(player1.name)) : $arenas.appendChild(playerStatus(player2.name));
-        $clickButton.disabled = true;
-    }
+    player.hp -= Math.ceil(Math.random() * 20);
 
+    if (player.hp <= 0 && player.player === 1) {
+        player.hp = 0;
+        $arenas.appendChild(playerStatus(player2.name));
+        console.log('Решающим ударом отправляем в = ' + `${player.hp}`);
+      }
     
+      if (player.hp <= 0 && player.player === 2) {
+        player.hp = 0;
+        $arenas.appendChild(playerStatus(player1.name));
+        console.log('Решающим ударом отправляем в = ' +`${player.hp}`);
+      }     
 }
 
 $clickButton.addEventListener('click', () => {
@@ -79,6 +79,7 @@ $clickButton.addEventListener('click', () => {
 function playerStatus(name) {
     const $closeTitle = createElement('div', 'winTitle');
     $closeTitle.innerText = name + ' ' + 'win';
+    $clickButton.disabled = true;
     return $closeTitle;
 }
 
