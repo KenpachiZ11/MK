@@ -226,21 +226,21 @@ function time() {
     return `${hours}:${min}:${sec}`;
 }
 
-let timeId = setInterval(() => {
-    time();
-}, 1000);
-
-function generateLogs(type, player1, player2, healpoints) {
+function generateLogs(type, player1, player2) {
     let text;
+    let el;
     switch(type) {
         case 'start':
             text = logs[type].replace('[time]', time()).replace('[player1]', player1.name).replace('[player2]', player2.name);
+                el = `<p>${time()} ${text}</p>`;
             break;
         case 'hit':
             text = logs[type][getRandom(logs.hit.length - 1)].replace("[playerKick]", player1.name).replace("[playerDefence]", player2.name);
+                el = `<p> ${time()} ${text} ${player1.hp}/100</p>`;
             break;
         case 'defence':
             text = logs[type][getRandom(logs.defence.length - 1)].replace("[playerKick]", player2.name).replace("[playerDefence]", player1.name);
+                el = `<p>${time()} ${text} ${player1.hp}/100</p>`
             break;
         case 'draw':
             text = logs[type];
@@ -249,7 +249,6 @@ function generateLogs(type, player1, player2, healpoints) {
             text = logs[type][getRandom(logs.end.length)].replace("[playerWins]", player1.name).replace("[playerLose]", player2.name);
             break;
     }
-    const el = `<p>${time()} ${text}</p>`;
     $chat.insertAdjacentHTML("afterbegin", el);
 }
 
